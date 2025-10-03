@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import AuthLayout from '../../components/layouts/AuthLayout';
-import { useNavigate } from 'react-router-dom';
-//import Input from "../../components/layouts/Input";
+import { Link, useNavigate } from 'react-router-dom';
+import Input from "../../components/Inputs/Input";
+import { validateEmail } from "../../utils/helper";
+
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,8 +16,19 @@ const Login = () => {
   // Handle Login Form Submit
   const handleLogin = async (e) => {
     e.preventDefault();
-    // your login logic here
-  };
+
+    if (!validateEmail(email)){
+      setError("Please enter valid email address.");
+      return;
+    }
+    if (!password){
+      setError("Please enter the password.");
+      return;
+    }
+    setError("");
+
+//Login API Call
+  }
 
   return (
     <AuthLayout>
@@ -25,13 +39,43 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleLogin}>
-          <input
-            value={email}
-            onChange={({ target}) => setEmail(target.value)}
-            label="Email Address"
-            placeholder="jhone@gmail.com"
-            type="text"
-          />
+        <Input
+          value={email}
+          onChange={({ target}) => setEmail(target.value)}
+          label="Email Address"
+          placeholder="jhone@gmail.com"
+          type="text"
+          className="mb-4"
+        />
+
+        <Input
+          value={password}
+          onChange={({ target}) => setPassword(target.value)}
+          label="Password"
+          placeholder="********"
+          type="password"
+        />
+          
+          {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+
+          
+          <button type="submit" className="btn-primary mt-6" >
+            LOGIN
+          </button>
+          
+          <p className="text-[13px] text-slate-800 mt-4">
+            Don't have an account?{" "}
+            <Link  to="/signup" 
+            className="font-medium underline"
+            style={{ color: "#0f1decff" }} // custom color
+             >
+               SignUp
+            </Link>
+
+
+
+          </p>
+          
         </form>
       </div>
     </AuthLayout>

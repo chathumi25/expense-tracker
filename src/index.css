@@ -12,6 +12,7 @@
 }
 
 /* Base styles */
+/* Base styles */
 @layer base {
   html {
     font-family: var(--font-display);
@@ -21,4 +22,84 @@
     background-color: #fcfbfc;
     overflow-x: hidden;
   }
+}
+
+/* Input Box */
+.input-box {
+  display: flex;
+  align-items: center;
+  border: 2px solid #4149b3;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background-color: rgba(170, 182, 240, 0.15); /* lighter, subtle blur background */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Input box styles */
+.input-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+
+  /* Glass effect */
+  background: rgba(197, 204, 243, 0.588);
+  border: 1.3px solid rgba(13, 7, 96, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Smooth transitions */
+  transition: all 0.3s ease-in-out;
+}
+
+.input-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #1f2937; /* text-slate-800 */
+}
+
+.input-box input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Focus effect */
+.input-box:focus-within {
+  border: 1px solid rgba(37, 99, 235, 0.7);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+}
+
+/* Button styles */
+.btn-primary {
+  @apply w-full flex items-center justify-center gap-3 text-sm 
+         px-5 py-3 rounded-xl font-semibold text-white cursor-pointer 
+         transition-all duration-300 ease-in-out;
+
+  /* Glassy gradient */
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(59, 130, 246, 0.8));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  
+
+  /* Text */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Hover effect */
+.btn-primary:hover {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(59, 130, 246, 0.95));
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.5);
+}
+
+/* Active (on click) */
+.btn-primary:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
