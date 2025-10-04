@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,      // allow JS files
+    "checkJs": false,     // optional: enable to check JS types
+    "outDir": "./dist",   // optional: compiled files go here
+    "module": "nodenext",
+    "target": "ESNext"
+  },
+  "include": ["./**/*.js"],
+  "exclude": ["node_modules", "dist"]
+}
