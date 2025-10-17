@@ -4,11 +4,12 @@ const jwt = require('jsonwebtoken');
 // Generate JWT Token
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-}
+};
 
 // Register User
 exports.registerUser = async (req, res) => { 
-    const { fullName, email, password, profileImageUrl } = req.body;
+    // 🔧 Changed profileImageUrl ➜ profileImage
+    const { fullName, email, password, profileImage } = req.body;
     
     if (!fullName || !email || !password) {
         return res.status(400).json({ message: 'All fields are required' });
@@ -20,11 +21,12 @@ exports.registerUser = async (req, res) => {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
+        // 🔧 Changed profileImageUrl ➜ profileImage
         const user = await User.create({
             fullName,
             email,
             password,
-            profileImage: profileImageUrl || '',  // updated field name
+            profileImage: profileImage || '',
         });
 
         res.status(201).json({
@@ -46,7 +48,6 @@ exports.loginUser = async (req, res) => {
     }
 
     try {
-        // Select password explicitly because schema has select: false
         const user = await User.findOne({ email }).select('+password');
         if (!user || !(await user.comparePassword(password))) {
             return res.status(400).json({ message: 'Invalid credentials' });
@@ -72,5 +73,31 @@ exports.getUserInfo = async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching user info', error: error.message });
+    }
+};
+
+// ✅ new function to save image URL
+exports.updateProfileImage = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { imageUrl } = req.body;
+
+        if (!imageUrl) {
+            return res.status(400).json({ message: "No image URL provided" });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { profileImage: imageUrl },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "Profile image updated successfully", user });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating profile image", error: error.message });
     }
 };
