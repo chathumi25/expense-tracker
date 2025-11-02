@@ -4,7 +4,7 @@ const {
     registerUser, 
     loginUser, 
     getUserInfo,
-    updateProfileImage   // ✅ added
+    updateProfileImage   //  added
 } = require("../controllers/authController");
 const upload = require("../middleware/uploadMiddleware"); // ✅ fixed line
 
@@ -22,7 +22,7 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
     res.status(200).json({ imageUrl });
 });
 
-// ✅ new route to update user’s profile image in MongoDB
+//  new route to update user’s profile image in MongoDB
 router.put("/update-profile-image", protect, updateProfileImage);
 
 module.exports = router;

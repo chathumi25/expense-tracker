@@ -1,3 +1,4 @@
+// App.jsx
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -12,25 +13,23 @@ import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
 
-//  Import the UserProvider
+// Import the UserProvider
 import UserProvider from "./context/userContext";
 
 const App = () => {
   return (
     // Wrap everything inside UserProvider
     <UserProvider>
-      <div>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/dashboard" element={<Home />} />
-            <Route path="/income" element={<Income />} />
-            <Route path="/expense" element={<Expense />} />
-          </Routes>
-        </Router>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/dashboard" element={<Home />} />
+          <Route path="/income" element={<Income />} />
+          <Route path="/expense" element={<Expense />} />
+        </Routes>
+      </Router>
     </UserProvider>
   );
 };

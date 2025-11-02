@@ -12,7 +12,6 @@
 }
 
 /* Base styles */
-/* Base styles */
 @layer base {
   html {
     font-family: var(--font-display);
@@ -31,26 +30,7 @@
   border: 2px solid #4149b3;
   padding: 10px 14px;
   border-radius: 8px;
-  background-color: rgba(170, 182, 240, 0.15); /* lighter, subtle blur background */
-  transition: all 0.3s ease-in-out;
-}
-
-/* Input box styles */
-.input-box {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 14px;
-
-  /* Glass effect */
-  background: rgba(197, 204, 243, 0.588);
-  border: 1.3px solid rgba(13, 7, 96, 0.4);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  /* Smooth transitions */
+  background-color: rgba(170, 182, 240, 0.15);
   transition: all 0.3s ease-in-out;
 }
 
@@ -60,14 +40,13 @@
   outline: none;
   background: transparent;
   font-size: 14px;
-  color: #1f2937; /* text-slate-800 */
+  color: #1f2937;
 }
 
 .input-box input::placeholder {
   color: rgba(0, 0, 0, 0.4);
 }
 
-/* Focus effect */
 .input-box:focus-within {
   border: 1px solid rgba(37, 99, 235, 0.7);
   box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
@@ -79,27 +58,201 @@
          px-5 py-3 rounded-xl font-semibold text-white cursor-pointer 
          transition-all duration-300 ease-in-out;
 
-  /* Glassy gradient */
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(59, 130, 246, 0.8));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  
-
-  /* Text */
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* Hover effect */
 .btn-primary:hover {
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(59, 130, 246, 0.95));
   transform: translateY(-2px) scale(1.03);
   box-shadow: 0 10px 30px rgba(37, 99, 235, 0.5);
 }
 
-/* Active (on click) */
 .btn-primary:active {
   transform: scale(0.97);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* =============================== */
+/* Modernized Side Menu (Blue Theme) */
+/* =============================== */
+.side-menu {
+  width: 250px;
+  background-color: #eff6ff;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+  padding: 24px 14px;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(8px);
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #03095b;
+  transition: all 0.25s ease-in-out;
+  position: relative;
+}
+
+.side-menu li:hover {
+  background-color: rgba(32, 97, 237, 0.386);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(32, 97, 237, 0.15);
+}
+
+.side-menu li.active {
+  background-color: rgba(37, 100, 235, 0.284);
+  font-weight: 600;
+  box-shadow: inset 4px 0 0 #1e3fa8;
+  transform: translateX(2px);
+}
+
+.side-menu li.active:hover {
+  background-color: rgba(37, 100, 235, 0.34);
+  box-shadow: inset 4px 0 0 #1e3fa8, 0 2px 8px rgba(37, 100, 235, 0.2);
+}
+
+.side-menu li svg {
+  font-size: 18px;
+  flex-shrink: 0;
+  opacity: 0.9;
+  transition: all 0.3s ease-in-out;
+}
+
+.side-menu li:hover svg {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(32, 97, 237, 0.8));
+  transform: scale(1.1);
+}
+
+.side-menu li.active svg {
+  filter: drop-shadow(0 0 6px rgba(37, 100, 235, 0.86));
+}
+
+.side-menu li.active:hover svg {
+  filter: drop-shadow(0 0 10px rgba(37, 100, 235, 0.308));
+}
+
+/* Profile Section */
+.profile-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgb(8, 34, 90);
+  box-shadow: 0 0 12px rgba(37, 100, 235, 0.993);
+  transition: all 0.3s ease-in-out;
+  display: block;
+  margin: 0 auto;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
+}
+
+.profile-placeholder {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: rgba(37, 99, 235, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: rgba(37, 99, 235, 0.8);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.15);
+  margin: 0 auto;
+}
+
+.profile-name {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #020748;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+.profile-divider {
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    rgba(37, 99, 235, 0.15),
+    rgba(37, 99, 235, 0.5),
+    rgba(37, 99, 235, 0.15)
+  );
+  border-radius: 1px;
+  margin: 20px auto 20px auto; /* ✅ top and bottom margin for spacing */
+}
+
+/* =============================== */
+/* 💎 Modern Card and Button Design */
+/* =============================== */
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.5rem;
+  border: 1px solid rgba(229, 231, 235, 0.6);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.03),
+    0 8px 20px rgba(37, 99, 235, 0.08);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 6px 20px rgba(37, 99, 235, 0.15),
+    0 10px 30px rgba(0, 0, 0, 0.04);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+/* Card Button */
+.card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #1f2937;
+  background-color: #f9fafb;
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(156, 163, 175, 0.25);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  backdrop-filter: blur(4px);
+}
+
+.card-btn:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+  color: #040c78;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}
+
+.card-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }

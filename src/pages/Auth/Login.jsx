@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
-
-// Added imports for axios and API paths
 import axios from "axios";
 import { BASE_URL, API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContext"; // ✅ Added
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
   const navigate = useNavigate();
+  const { updateUser } = useContext(UserContext); // ✅ Added
 
-  // Handle Login Form Submit
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -29,7 +27,6 @@ const Login = () => {
     }
     setError("");
 
-    //  Fixed Login API Call
     try {
       const response = await axios.post(
         `${BASE_URL}${API_PATHS.AUTH.LOGIN}`,
@@ -40,6 +37,7 @@ const Login = () => {
 
       if (token) {
         localStorage.setItem("token", token);
+        updateUser(user); // ✅ Added: immediately save user
         navigate("/dashboard");
       }
     } catch (error) {

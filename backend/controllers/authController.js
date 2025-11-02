@@ -76,7 +76,7 @@ exports.getUserInfo = async (req, res) => {
     }
 };
 
-// ✅ new function to save image URL
+//  new function to save image URL
 exports.updateProfileImage = async (req, res) => {
     try {
         const userId = req.user.id;
