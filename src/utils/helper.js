@@ -1,4 +1,3 @@
-// helper.js
 import moment from "moment";
 
 export const validateEmail = (email) => {
@@ -35,19 +34,27 @@ export const prepareExpenseBarChartData = (data = []) => {
 
 // ---------------- Income Chart ----------------
 export const prepareIncomeBarChartData = (data = []) => {
-  // ✅ Filter only income-type data (if backend includes type)
   const incomeData = data.filter((item) => !item.type || item.type === "income");
 
-  // ✅ Sort by date or createdAt (fallback)
   const sortedData = [...incomeData].sort(
-    (a, b) =>
-      new Date(a.date || a.createdAt) - new Date(b.date || b.createdAt)
+    (a, b) => new Date(a.date || a.createdAt) - new Date(b.date || b.createdAt)
   );
 
-  // ✅ Map to chart format
-  const chartData = sortedData.map((item) => ({
+  return sortedData.map((item) => ({
     month: moment(item.date || item.createdAt).format("Do MMM"),
     amount: Number(item.amount) || 0,
+  }));
+};
+
+// ---------------- Expense Line Chart ----------------
+export const prepareExpenseLineChartData = (data = []) => {
+  const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const chartData = sortedData.map((item) => ({
+    month: moment(item?.date).format("Do MMM"),
+    amount: Number(item?.amount) || 0,
+    // ✅ Added source field (uses category, source, or title from transaction)
+    source: item?.source || item?.category || item?.title || 'Unknown Source',
   }));
 
   return chartData;

@@ -80,9 +80,7 @@ const CustomIncomeBarChart = ({ data = [] }) => {
         background: "linear-gradient(to bottom right, #ecfdf5, #eff6ff)",
       }}
     >
-      <h4 className="text-lg font-semibold mb-4 text-[#1e3a8a] dark:text-[#15803d]">
-        Income Bar Chart
-      </h4>
+      
 
       <div className="chart-wrapper w-full">
         <ResponsiveContainer width="100%" height={400}>

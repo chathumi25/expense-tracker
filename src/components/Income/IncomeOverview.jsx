@@ -34,10 +34,10 @@ const IncomeOverview = ({ transactions = [], onAddIncome }) => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h5 className="text-xl font-semibold text-[#068133] dark:text-[#22c55e]">
+          <h5 className="text-xl font-semibold text-[#065f46]">
             Income Overview
           </h5>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-800 text-sm">
             Track your earnings over time and analyze your income trends.
           </p>
         </div>

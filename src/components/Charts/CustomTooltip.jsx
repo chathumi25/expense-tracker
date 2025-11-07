@@ -9,11 +9,11 @@ const COLORS = {
 
 const CustomTooltipContent = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    const name = payload[0].name.toLowerCase();
-    let textColor = "#3b82f6";
+    const data = payload[0].payload; // full object of this point
+    const name = payload[0].name?.toLowerCase() || "";
+    let textColor = COLORS.expenses; // default red for expenses
 
     if (name.includes("income")) textColor = COLORS.income;
-    else if (name.includes("expense")) textColor = COLORS.expenses;
     else if (name.includes("balance")) textColor = COLORS.balance;
 
     return (
@@ -26,24 +26,41 @@ const CustomTooltipContent = ({ active, payload }) => {
           boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
         }}
       >
-        <p style={{ color: textColor, fontWeight: "600", marginBottom: "4px" }}>
-          {payload[0].name}
+        {/* ✅ Show source (not month/date) */}
+        <p
+          style={{
+            color: textColor,
+            fontWeight: "600",
+            marginBottom: "4px",
+            fontSize: "13px",
+          }}
+        >
+          {data.source || "Unknown Source"}
         </p>
-        <p style={{ color: textColor, fontWeight: "500" }}>
-          ${payload[0].value.toLocaleString()}
+
+        {/* ✅ Show amount */}
+        <p
+          style={{
+            color: "#374151",
+            fontWeight: "500",
+            fontSize: "14px",
+          }}
+        >
+          Amount:{" "}
+          <span style={{ color: textColor }}>
+            ${data.amount?.toLocaleString() || 0}
+          </span>
         </p>
       </div>
     );
   }
+
   return null;
 };
 
-// ✅ Wrap it with Recharts Tooltip
+// ✅ Wrap it in Recharts Tooltip
 const CustomTooltip = () => (
-  <Tooltip
-    content={<CustomTooltipContent />}
-    wrapperStyle={{ outline: "none" }}
-  />
+  <Tooltip content={<CustomTooltipContent />} wrapperStyle={{ outline: "none" }} />
 );
 
 export default CustomTooltip;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EmojiPickerPop from '../EmojiPickerPop';
 
-const AddIncomeForm = ({ onAddIncome }) => {
+const AddIncomeFrom = ({ onAddIncome }) => {
   const [income, setIncome] = useState({
     source: "",
     amount: "",
@@ -68,4 +68,4 @@ const AddIncomeForm = ({ onAddIncome }) => {
   );
 };
 
-export default AddIncomeForm;
+export default AddIncomeFrom;
