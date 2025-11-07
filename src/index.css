@@ -256,3 +256,13 @@
   transform: scale(0.97);
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
+
+.add-btn {
+  @apply flex items-center gap-1.5 text-xs md:text-sm font-medium whitespace-nowrap 
+  text-[#068133] bg-[#eff6ff] border border-[#22c55e] 
+  rounded-lg px-4 py-2 cursor-pointer transition-all duration-300 ease-in-out;
+}
+
+.add-btn:hover {
+  @apply bg-[#27ed70] text-primary border-primary shadow-md;
+}
