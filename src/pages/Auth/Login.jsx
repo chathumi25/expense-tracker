@@ -5,14 +5,14 @@ import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
 import axios from "axios";
 import { BASE_URL, API_PATHS } from "../../utils/apiPaths";
-import { UserContext } from "../../context/userContext"; // ✅ Added
+import { UserContext } from "../../context/userContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { updateUser } = useContext(UserContext); // ✅ Added
+  const { updateUser } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,10 +34,9 @@ const Login = () => {
       );
 
       const { token, user } = response.data;
-
       if (token) {
         localStorage.setItem("token", token);
-        updateUser(user); // ✅ Added: immediately save user
+        updateUser(user);
         navigate("/dashboard");
       }
     } catch (error) {
@@ -51,10 +50,30 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center">
-        <h3 className="text-xl font-semibold text-black">Welcome Back</h3>
-        <p className="text-xs text-slate-700 mt-[5px] mb-6">
-          Please enter your details to log in
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* 🚫 Hide default browser password reveal icons */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear,
+        input[type="password"]::-webkit-contacts-auto-fill-button,
+        input[type="password"]::-webkit-credentials-auto-fill-button {
+          display: none !important;
+        }
+      `}</style>
+
+      <div className="animate-fadeIn lg:w-[75%] md:w-[80%] w-full bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-blue-100">
+        <h3 className="text-2xl font-bold text-[#040c78] mb-2 tracking-wide">
+          Welcome Back 
+        </h3>
+        <p className="text-sm text-gray-600 mb-6">
+          Please enter your credentials to log in
         </p>
 
         <form onSubmit={handleLogin}>
@@ -62,7 +81,7 @@ const Login = () => {
             value={email}
             onChange={({ target }) => setEmail(target.value)}
             label="Email Address"
-            placeholder="jhone@gmail.com"
+            placeholder="rmcn@gmail.com"
             type="text"
             className="mb-4"
           />
@@ -75,20 +94,24 @@ const Login = () => {
             type="password"
           />
 
-          {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+          {error && (
+            <p className="text-red-500 text-xs font-medium mt-2">{error}</p>
+          )}
 
-          <button type="submit" className="btn-primary mt-6">
+          <button
+            type="submit"
+            className="btn-primary mt-6 shadow-lg hover:shadow-blue-400/30"
+          >
             LOGIN
           </button>
 
-          <p className="text-[13px] text-slate-800 mt-4">
+          <p className="text-sm text-gray-700 mt-5 text-center">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="font-medium underline"
-              style={{ color: "#0f1decff" }}
+              className="font-medium text-blue-600 hover:underline"
             >
-              SignUp
+              Sign Up
             </Link>
           </p>
         </form>

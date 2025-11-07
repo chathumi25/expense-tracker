@@ -14,7 +14,6 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -28,7 +27,7 @@ const SignUp = () => {
       return;
     }
     if (!validateEmail(email.trim())) {
-      setError("Please enter valid email address.");
+      setError("Please enter a valid email address.");
       return;
     }
     if (!password.trim()) {
@@ -41,7 +40,6 @@ const SignUp = () => {
     try {
       if (profilePic) {
         const imgUploadRes = await uploadImage(profilePic);
-        // 🔧 Fixed property name (imageUrl)
         profileImgUrl = imgUploadRes.imageUrl || "";
       }
 
@@ -49,7 +47,7 @@ const SignUp = () => {
         fullName: fullName.trim(),
         email: email.trim(),
         password: password.trim(),
-        profileImage: profileImgUrl, // ✅ this now matches backend
+        profileImage: profileImgUrl,
       });
 
       const { token, user } = response.data;
@@ -71,58 +69,64 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center ">
-        <h3 className="text-xl font-semibold text-black">Create an Account</h3>
-        <p className="text-xs text-slate-700 mt-[5px] mb-6">
-          Join us today by entering your details below.
-        </p>
+      <div className="flex justify-center items-start w-full min-h-screen pt-20 pb-10">
+        <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md md:max-w-lg lg:max-w-xl border border-gray-100">
+          <h3 className="text-2xl font-bold text-[#040c78] mb-2 tracking-wide text-center">Create an Account</h3>
+          <p className="text-sm text-gray-600 text-center mt-2 mb-5">
+            Join us today by entering your details below.
+          </p>
 
-        <form onSubmit={handleSignUp}>
-          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+          <form onSubmit={handleSignUp} className="space-y-4">
+            <div className="flex justify-center mb-3">
+              <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               value={fullName}
               onChange={({ target }) => setFullName(target.value)}
               label="Full Name"
-              placeholder="John"
+              placeholder="John Doe"
               type="text"
             />
+
             <Input
               value={email}
               onChange={({ target }) => setEmail(target.value)}
               label="Email Address"
               placeholder="john@gmail.com"
               type="text"
-              className="mb-4"
             />
-            <div className='col-span-2'>
-              <Input
-                value={password}
-                onChange={({ target }) => setPassword(target.value)}
-                label="Password"
-                placeholder="********"
-                type="password"
-              />
-              {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
-              
-              <button type="submit" className="btn-primary mt-6">
-                SIGN UP
-              </button>
 
-              <p className="text-[13px] text-slate-800 mt-4">
-                Already have an account?{" "}
-                <Link 
-                  to="/login"
-                  className="font-medium underline"
-                  style={{ color: "#0f1decff" }}
-                >
-                  Login
-                </Link>
-              </p>
-            </div>
-          </div>
-        </form>
+            {/* ✅ Password input (eye icon completely removed) */}
+            <Input
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+              label="Password"
+              placeholder="********"
+              type="password"
+              showEyeIcon={false}
+            />
+
+            {error && <p className="text-red-500 text-xs text-center -mt-1">{error}</p>}
+
+            <button
+              type="submit"
+              className="btn-primary mt-6 shadow-lg hover:shadow-blue-400/30"
+            >
+              SIGN UP
+            </button>
+
+            <p className="text-sm text-gray-700 text-center mt-4">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="font-medium text-blue-600 hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
     </AuthLayout>
   );
