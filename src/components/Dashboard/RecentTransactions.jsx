@@ -20,12 +20,7 @@ const RecentTransactions = ({ transactions = [], onSeeMore }) => {
           Recent Transactions
         </h5>
 
-        <button
-          className="card-btn flex items-center gap-1 text-sm font-medium text-primary hover:text-blue-800"
-          onClick={onSeeMore}
-        >
-          See All <LuArrowRight className="text-base" />
-        </button>
+       
       </div>
 
       {/* Content */}
