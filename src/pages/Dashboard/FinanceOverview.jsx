@@ -1,18 +1,16 @@
 import React from "react";
-import CoustomPieChart from "../../components/Charts/CoustomPieChart";
-
-
-const COLORS = {
-  income: "#22c55e",
-  expenses: "#ef4444",
-  balance: "#3b82f6",
-};
+import CustomPieChart from "../../components/Charts/CoustomPieChart";
 
 const FinanceOverview = ({ totalBalance, totalIncome, totalExpenses }) => {
+  // ✅ Ensure numbers (avoid strings or undefined)
+  const safeBalance = Number(totalBalance) || 0;
+  const safeIncome = Number(totalIncome) || 0;
+  const safeExpenses = Number(totalExpenses) || 0;
+
   const balanceData = [
-    { name: "Total Income", value: totalIncome, type: "income" },
-    { name: "Total Expenses", value: totalExpenses, type: "expenses" },
-    { name: "Total Balance", value: totalBalance, type: "balance" },
+    { name: "Total Income", value: safeIncome, type: "income" },
+    { name: "Total Expenses", value: safeExpenses, type: "expenses" },
+    { name: "Total Balance", value: safeBalance, type: "balance" },
   ];
 
   return (
@@ -23,12 +21,11 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpenses }) => {
         </h5>
       </div>
 
-      {/* Reuse Custom Pie Chart */}
-      <CoustomPieChart
+      {/* ✅ Correct component name and props */}
+      <CustomPieChart
         data={balanceData}
         label="Total Balance"
-        totalAmount={totalBalance}
-        showTextAchor={true}
+        totalAmount={safeBalance}
       />
     </div>
   );

@@ -44,11 +44,15 @@ const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false })
             ))}
           </Pie>
 
-          {/* Tooltip */}
+          {/* ✅ Tooltip with its own slice color */}
           <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
-                const { name, value, color } = payload[0];
+                const { name, value, payload: entry } = payload[0];
+                const color =
+                  entry?.color ||
+                  DEFAULT_COLORS[payload[0].index % DEFAULT_COLORS.length];
+
                 return (
                   <div
                     style={{
@@ -59,10 +63,10 @@ const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false })
                       boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
                     }}
                   >
-                    <p style={{ color: color, fontWeight: 600, marginBottom: 4 }}>
+                    <p style={{ color, fontWeight: 600, marginBottom: 4 }}>
                       {name}
                     </p>
-                    <p style={{ color: color, fontWeight: 500 }}>
+                    <p style={{ color, fontWeight: 500 }}>
                       ${value.toLocaleString()}
                     </p>
                   </div>

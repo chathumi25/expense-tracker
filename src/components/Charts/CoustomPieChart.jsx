@@ -1,17 +1,39 @@
 import React, { useState } from "react";
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
-import CustomTooltip from "./CustomTooltip";
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from "recharts";
 
 const COLORS = {
-  income: "#22c55e",
-  expenses: "#ef4444",
-  balance: "#3b82f6",
+  income: "#22c55e",   // green
+  expenses: "#ef4444", // red
+  balance: "#3b82f6",  // blue
 };
 
 const CustomPieChart = ({ data, label, totalAmount }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   if (!data || data.length === 0) return null;
+
+  // ✅ Custom Tooltip with dynamic color border/text
+  const CustomStyledTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const entry = payload[0];
+      const color = entry?.payload?.type ? COLORS[entry.payload.type] : "#000";
+      return (
+        <div
+          className="p-3 rounded-lg shadow-md bg-white text-sm font-medium"
+          style={{
+            border: `2px solid ${color}`,
+            color,
+            minWidth: "140px",
+            textAlign: "center",
+          }}
+        >
+          <p className="font-semibold">{entry.name}</p>
+          <p className="text-base">${Number(entry.value).toLocaleString()}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="relative w-full h-96 md:h-[420px]">
@@ -39,27 +61,29 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
             ))}
           </Pie>
 
-          {/* ✅ Custom tooltip (colorful border + text) */}
-          <CustomTooltip />
+          {/* ✅ Tooltip with color styling */}
+          <Tooltip content={<CustomStyledTooltip />} />
 
-          {/* Legend */}
           <Legend verticalAlign="bottom" height={36} />
         </PieChart>
       </ResponsiveContainer>
 
-      {/* Center total label */}
+      {/* ✅ Center total label and active section */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span className="text-primary font-semibold">{label}</span>
         <span className="text-2xl md:text-3xl font-bold text-gray-900">
-          ${totalAmount.toLocaleString()}
+          ${Number(totalAmount).toLocaleString()}
         </span>
 
         {activeIndex !== null && (
           <span
-            className="mt-2 text-lg font-semibold"
-            style={{ color: COLORS[data[activeIndex].type] }}
+            className="mt-3 text-lg font-semibold px-3 py-1 rounded-full bg-white shadow-sm border"
+            style={{
+              borderColor: COLORS[data[activeIndex].type],
+              color: COLORS[data[activeIndex].type],
+            }}
           >
-            {data[activeIndex].name}
+            {data[activeIndex].name}: ${data[activeIndex].value.toLocaleString()}
           </span>
         )}
       </div>
