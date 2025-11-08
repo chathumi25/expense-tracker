@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'; // ✅ Added useState import
+import React, { useEffect, useState } from 'react'; //  Added useState import
 import { prepareExpenseBarChartData } from '../../utils/helper';
 import CustomBarChart from '../Charts/CustomBarChart';
 
 const Last30DaysExpenses = ({ data }) => {
-  const [chartData, setChartData] = useState([]); // ✅ fixed variable typo (was charData)
+  const [chartData, setChartData] = useState([]); //  fixed variable typo (was charData)
 
   useEffect(() => {
     const result = prepareExpenseBarChartData(data);
@@ -20,7 +20,7 @@ const Last30DaysExpenses = ({ data }) => {
         </h5>
       </div>
 
-      <CustomBarChart data={chartData} /> {/* ✅ fixed spacing */}
+      <CustomBarChart data={chartData} /> {/*  fixed spacing */}
     </div>
   );
 };

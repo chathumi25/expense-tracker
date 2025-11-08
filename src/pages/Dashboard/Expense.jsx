@@ -17,7 +17,7 @@ const Expense = () => {
   const [expenseData, setExpenseData] = useState([]);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ show: false, data: null });
 
-  // ✅ Fetch all expense records
+  //  Fetch all expense records
   const fetchExpenseDetails = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.EXPENSE.GET_ALL_EXPENSE);
@@ -36,7 +36,7 @@ const Expense = () => {
     fetchExpenseDetails();
   }, []);
 
-  // ✅ Add a new expense
+  //  Add a new expense
   const handleAddExpense = async (expense) => {
     const { source, amount, date, icon } = expense;
 
@@ -70,7 +70,7 @@ const Expense = () => {
     }
   };
 
-  // ✅ Delete expense
+  //  Delete expense
   const deleteExpense = async (id) => {
     try {
       await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
@@ -83,7 +83,7 @@ const Expense = () => {
     }
   };
 
-  // ✅ Download expense details
+  //  Download expense details
   const handleDownloadExpenseDetails = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.EXPENSE.DOWNLOAD_EXPENSE, {

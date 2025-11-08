@@ -4,7 +4,7 @@ import moment from "moment";
 import TransactionInfoCard from "../Cards/TransactionInfoCard";
 
 const RecentTransactions = ({ transactions = [], onSeeMore }) => {
-  // ✅ Combine and sort both income & expense by newest date
+  //  Combine and sort both income & expense by newest date
   const sortedTransactions = useMemo(() => {
     return [...transactions]
       .filter((t) => t.date)

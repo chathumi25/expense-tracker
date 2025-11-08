@@ -14,7 +14,7 @@ const Income = () => {
   const [incomeData, setIncomeData] = useState([]);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ show: false, data: null });
 
-  // ✅ Fetch all income records
+  //  Fetch all income records
   const fetchIncomeDetails = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.INCOME.GET_ALL_INCOME);
@@ -39,7 +39,7 @@ const Income = () => {
     fetchIncomeDetails();
   }, []);
 
-  // ✅ Add a new income record
+  //  Add a new income record
   const handleAddIncome = async (income) => {
     const { source, amount, date, icon } = income;
 

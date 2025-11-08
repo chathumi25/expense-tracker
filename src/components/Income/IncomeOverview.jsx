@@ -26,7 +26,7 @@ const IncomeOverview = ({ transactions = [], onAddIncome }) => {
       }, []);
 
     setChartData(aggregatedData);
-    console.log("✅ Income chart data:", aggregatedData); // Debug
+    console.log(" Income chart data:", aggregatedData); 
   }, [transactions]);
 
   return (

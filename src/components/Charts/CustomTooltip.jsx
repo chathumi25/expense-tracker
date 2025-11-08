@@ -26,7 +26,7 @@ const CustomTooltipContent = ({ active, payload }) => {
           boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
         }}
       >
-        {/* ✅ Show source (not month/date) */}
+        {/*  Show source (not month/date) */}
         <p
           style={{
             color: textColor,
@@ -38,7 +38,7 @@ const CustomTooltipContent = ({ active, payload }) => {
           {data.source || "Unknown Source"}
         </p>
 
-        {/* ✅ Show amount */}
+        {/*  Show amount */}
         <p
           style={{
             color: "#374151",
@@ -58,7 +58,7 @@ const CustomTooltipContent = ({ active, payload }) => {
   return null;
 };
 
-// ✅ Wrap it in Recharts Tooltip
+//  Wrap it in Recharts Tooltip
 const CustomTooltip = () => (
   <Tooltip content={<CustomTooltipContent />} wrapperStyle={{ outline: "none" }} />
 );

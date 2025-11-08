@@ -23,7 +23,7 @@ function IncomeList({ transactions, onDelete, onDownload }) {
           <TransactionInfoCard
             key={income._id}
             title={income.source}
-            icon={income.icon} // ✅ Use icon if available
+            icon={income.icon} //  Use icon if available
             date={moment(income.date).format("DD MMM YYYY")}
             amount={income.amount}
             type="income"

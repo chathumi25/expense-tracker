@@ -202,11 +202,11 @@
     rgba(37, 99, 235, 0.15)
   );
   border-radius: 1px;
-  margin: 20px auto 20px auto; /* ✅ top and bottom margin for spacing */
+  margin: 20px auto 20px auto; /*  top and bottom margin for spacing */
 }
 
 /* =============================== */
-/* 💎 Modern Card and Button Design */
+/*  Modern Card and Button Design */
 /* =============================== */
 .card {
   background: #ffffff;

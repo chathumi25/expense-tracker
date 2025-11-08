@@ -17,7 +17,7 @@ const AddExpenseForm = ({ onAddExpense }) => {
     const date = expense.date;
     const icon = expense.icon || "💰";
 
-    // ✅ Validation
+    //  Validation
     if (!source) {
       alert("Source is required");
       return;
@@ -31,10 +31,10 @@ const AddExpenseForm = ({ onAddExpense }) => {
       return;
     }
 
-    // ✅ Send data to backend (map source → category)
+    //  Send data to backend (map source → category)
     onAddExpense({ source, amount, date, icon });
 
-    // ✅ Clear form
+    //  Clear form
     setExpense({ source: "", amount: "", date: "", icon: "" });
   };
 

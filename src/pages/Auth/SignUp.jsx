@@ -6,7 +6,7 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from '../../utils/axiosinstance';
 import { UserContext } from "../../context/userContext";
 import uploadImage from "../../utils/uploadImage";
-import { LuCamera } from "react-icons/lu"; // ✅ camera icon
+import { LuCamera } from "react-icons/lu"; 
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -81,7 +81,7 @@ const SignUp = () => {
 
           <form onSubmit={handleSignUp} className="space-y-4">
             
-            {/* ✅ Stylish Upload Section */}
+            {/*  Stylish Upload Section */}
             <div className="flex flex-col items-center mb-3 relative">
               <label
                 htmlFor="profilePic"
@@ -100,7 +100,7 @@ const SignUp = () => {
                   </div>
                 )}
 
-                {/* ✅ small camera overlay in bottom-right */}
+                {/*  small camera overlay in bottom-right */}
                 {profilePic && (
                   <div className="absolute bottom-1 right-1 bg-blue-500 rounded-full p-1.5 shadow-md hover:bg-blue-600 transition">
                     <LuCamera size={16} color="#fff" />

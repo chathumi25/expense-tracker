@@ -11,7 +11,7 @@ const DashboardLayout = ({ children, activeMenue }) => {
       className="min-h-screen flex flex-col"
       style={{
         background: "linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(16,185,129,0.05) 50%, rgba(248,113,113,0.05) 100%)",
-        // 💚💙❤️ soft gradient: green → blue → very light red-pink
+        //  soft gradient: green → blue → very light red-pink
       }}
     >
       {/* === Top Navbar === */}

@@ -5,7 +5,7 @@ exports.protect = async (req, res, next) => {
   try {
     let token;
 
-    // ✅ Safely check for "Bearer" header before splitting
+    //  Safely check for "Bearer" header before splitting
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
@@ -13,25 +13,25 @@ exports.protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
     }
 
-    // ✅ If no token, send 401 response
+    //  If no token, send 401 response
     if (!token) {
       return res.status(401).json({ message: "Not authorized, no token provided" });
     }
 
-    // ✅ Verify token using secret
+    //  Verify token using secret
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // ✅ Find the user from decoded ID
+    //  Find the user from decoded ID
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    // ✅ Attach user to request for later use
+    //  Attach user to request for later use
     req.user = user;
 
-    // ✅ Always call next()
+    //  Always call next()
     next();
   } catch (error) {
     console.error("Auth Middleware Error:", error.message);

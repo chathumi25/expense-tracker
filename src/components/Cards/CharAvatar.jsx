@@ -3,8 +3,8 @@ import React from 'react';
 
 const CharAvatar = ({
   fullName = 'User',
-  size = 90, // matches your .profile-image / .profile-placeholder size
-  fontSize = 24, // roughly matches text-2xl
+  size = 90, 
+  fontSize = 24, 
 }) => {
   // Get initials from fullName
   const getInitials = (name) => {

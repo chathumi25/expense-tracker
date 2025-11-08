@@ -15,7 +15,7 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
   // Format numbers with commas
   const formatAmount = (amt) => `Rs ${Number(amt).toLocaleString("en-IN")}`;
 
-  // ✅ Custom Tooltip with dynamic color border/text
+  //  Custom Tooltip with dynamic color border/text
   const CustomStyledTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const entry = payload[0];

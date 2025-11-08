@@ -53,7 +53,7 @@ export const prepareExpenseLineChartData = (data = []) => {
   const chartData = sortedData.map((item) => ({
     month: moment(item?.date).format("Do MMM"),
     amount: Number(item?.amount) || 0,
-    // ✅ Added source field (uses category, source, or title from transaction)
+    //  Added source field (uses category, source, or title from transaction)
     source: item?.source || item?.category || item?.title || 'Unknown Source',
   }));
 

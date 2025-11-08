@@ -2,7 +2,7 @@ import React from "react";
 import CustomPieChart from "../../components/Charts/CoustomPieChart";
 
 const FinanceOverview = ({ totalBalance, totalIncome, totalExpenses }) => {
-  // ✅ Ensure numbers (avoid strings or undefined)
+  //  Ensure numbers (avoid strings or undefined)
   const safeBalance = Number(totalBalance) || 0;
   const safeIncome = Number(totalIncome) || 0;
   const safeExpenses = Number(totalExpenses) || 0;
@@ -21,7 +21,7 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpenses }) => {
         </h5>
       </div>
 
-      {/* ✅ Correct component name and props */}
+      {/*  Correct component name and props */}
       <CustomPieChart
         data={balanceData}
         label="Total Balance"

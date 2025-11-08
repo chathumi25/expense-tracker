@@ -4,9 +4,9 @@ const {
     registerUser, 
     loginUser, 
     getUserInfo,
-    updateProfileImage   //  added
+    updateProfileImage   
 } = require("../controllers/authController");
-const upload = require("../middleware/uploadMiddleware"); // ✅ fixed line
+const upload = require("../middleware/uploadMiddleware"); 
 
 const router = express.Router();
 

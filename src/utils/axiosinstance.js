@@ -10,13 +10,13 @@ const axiosInstance = axios.create({
   },
 });
 
-// ✅ Attach JWT token if available
+//  Attach JWT token if available
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
 
-    // ✅ Prevent caching for GET requests (safe version)
+    //  Prevent caching for GET requests (safe version)
     if (config.method === "get" && config.url) {
       const separator = config.url.includes("?") ? "&" : "?";
       config.url = `${config.url}${separator}_=${Date.now()}`;
@@ -27,7 +27,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Response interceptor for errors
+//  Response interceptor for errors
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => {
