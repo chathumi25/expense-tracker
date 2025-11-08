@@ -16,15 +16,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    if (!validateEmail(email)) {
-      setError("Please enter valid email address.");
-      return;
-    }
-    if (!password) {
-      setError("Please enter the password.");
-      return;
-    }
+    if (!validateEmail(email)) return setError("Please enter valid email.");
+    if (!password) return setError("Please enter password.");
     setError("");
 
     try {
@@ -36,41 +29,29 @@ const Login = () => {
       const { token, user } = response.data;
       if (token) {
         localStorage.setItem("token", token);
-        updateUser(user);
+
+        // ✅ Merge local profileImage if exists
+        const localProfileImage = localStorage.getItem('profileImage');
+        const mergedUser = localProfileImage
+          ? { ...user, profileImage: localProfileImage }
+          : user;
+
+        updateUser(mergedUser);
+        localStorage.setItem("user", JSON.stringify(mergedUser));
+
         navigate("/dashboard");
       }
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        setError(error.response.data.message);
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
+      if (error.response?.data?.message) setError(error.response.data.message);
+      else setError("Something went wrong. Try again.");
     }
   };
 
   return (
     <AuthLayout>
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.8s ease-in-out;
-        }
-
-        /* 🚫 Hide default browser password reveal icons */
-        input[type="password"]::-ms-reveal,
-        input[type="password"]::-ms-clear,
-        input[type="password"]::-webkit-contacts-auto-fill-button,
-        input[type="password"]::-webkit-credentials-auto-fill-button {
-          display: none !important;
-        }
-      `}</style>
-
       <div className="animate-fadeIn lg:w-[75%] md:w-[80%] w-full bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-blue-100">
         <h3 className="text-2xl font-bold text-[#040c78] mb-2 tracking-wide">
-          Welcome Back 
+          Welcome Back
         </h3>
         <p className="text-sm text-gray-600 mb-6">
           Please enter your credentials to log in

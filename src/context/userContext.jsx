@@ -1,12 +1,11 @@
-// userContext.jsx
-import { createContext, useState, useEffect } from "react"; // Line 1: added useEffect
+import { createContext, useState, useEffect } from "react";
 
-export const UserContext = createContext(); // Line 3
+export const UserContext = createContext();
 
-const UserProvider = ({ children }) => { // Line 5
+const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    //  Line 8–13: Load user from localStorage when app starts
+    // Load user from localStorage on app start
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -14,23 +13,24 @@ const UserProvider = ({ children }) => { // Line 5
         }
     }, []);
 
-    // Function to update user data
+    // Update user in context and localStorage
     const updateUser = (userData) => {
         setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData)); //  Line 17: persist user
+        localStorage.setItem("user", JSON.stringify(userData));
     };
 
-    // Function to clear user data (e.g., on logout)
+    // Clear user data
     const clearUser = () => {
         setUser(null);
-        localStorage.removeItem("user"); //  Line 22: remove user when logging out
+        localStorage.removeItem("user");
+        localStorage.removeItem("profileImage"); // optional
     };
 
     return (
-        <UserContext.Provider value={{ user, updateUser, clearUser }}> 
+        <UserContext.Provider value={{ user, updateUser, clearUser }}>
             {children}
         </UserContext.Provider>
     );
 };
 
-export default UserProvider; // Line 29
+export default UserProvider;
