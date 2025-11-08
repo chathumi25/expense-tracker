@@ -6,6 +6,9 @@ const DEFAULT_COLORS = ["#22C55E", "#16A34A", "#4ADE80", "#86EFAC", "#BBF7D0"];
 const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
+  // Format numbers with Rs + commas
+  const formatAmount = (amt) => `Rs ${Number(amt).toLocaleString("en-IN")}`;
+
   const chartData =
     data.length > 0
       ? data
@@ -44,7 +47,7 @@ const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false })
             ))}
           </Pie>
 
-          {/* ✅ Tooltip with its own slice color */}
+          {/* Tooltip with Rs formatting */}
           <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
@@ -67,7 +70,7 @@ const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false })
                       {name}
                     </p>
                     <p style={{ color, fontWeight: 500 }}>
-                      ${value.toLocaleString()}
+                      {formatAmount(value)}
                     </p>
                   </div>
                 );
@@ -83,7 +86,7 @@ const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false })
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
         <span className="text-primary font-semibold text-lg">Total Income</span>
         <span className="mt-1 text-2xl md:text-2xl font-bold text-black">
-          ${totalAmount.toLocaleString()}
+          {formatAmount(totalAmount)}
         </span>
       </div>
     </div>

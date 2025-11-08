@@ -15,18 +15,20 @@ const CustomIncomeBarChart = ({ data = [] }) => {
   const [hoveredBar, setHoveredBar] = useState(null);
   const [chartData, setChartData] = useState([]);
 
-  // 💙💚 Bar colors
+  // Format numbers with commas + Rs
+  const formatAmount = (amt) => `Rs ${Number(amt).toLocaleString("en-IN")}`;
+
+  // Bar colors
   const getBarColor = (index) => {
     if (index === hoveredBar) return "#7dd3fc"; // hover sky blue
     if (index === selectedBar) return "#15803d"; // deep green selected
     return index % 2 === 0 ? "#2563EB" : "#93C5FD"; // alternate blue shades
   };
 
-  // ✅ Aggregate data by source
+  // Aggregate data by source
   useEffect(() => {
     if (!Array.isArray(data)) return;
 
-    // Map and filter valid items
     const validData = data
       .map((item) => ({
         source: item.source?.toString().trim() || "",
@@ -34,7 +36,6 @@ const CustomIncomeBarChart = ({ data = [] }) => {
       }))
       .filter((item) => item.source && item.amount > 0);
 
-    // Aggregate by source
     const aggregated = validData.reduce((acc, item) => {
       const existing = acc.find((i) => i.source === item.source);
       if (existing) {
@@ -46,14 +47,11 @@ const CustomIncomeBarChart = ({ data = [] }) => {
     }, []);
 
     setChartData(aggregated);
-    console.log("✅ Aggregated chartData:", aggregated);
   }, [data]);
 
-  // Dynamic bar width
   const dynamicBarSize =
     chartData.length > 0 ? Math.max(20, Math.floor(400 / chartData.length)) : 50;
 
-  // Custom Tooltip
   const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
 
@@ -65,9 +63,7 @@ const CustomIncomeBarChart = ({ data = [] }) => {
         <p className="text-xs font-semibold text-[#065f46] mb-1">{source}</p>
         <p className="text-sm text-gray-600">
           Amount:{" "}
-          <span className="font-medium text-[#16a34a]">
-            ${amount.toLocaleString()}
-          </span>
+          <span className="font-medium text-[#16a34a]">{formatAmount(amount)}</span>
         </p>
       </div>
     );
@@ -80,8 +76,6 @@ const CustomIncomeBarChart = ({ data = [] }) => {
         background: "linear-gradient(to bottom right, #ecfdf5, #eff6ff)",
       }}
     >
-      
-
       <div className="chart-wrapper w-full">
         <ResponsiveContainer width="100%" height={400}>
           <BarChart

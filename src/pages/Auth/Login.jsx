@@ -30,7 +30,7 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token);
 
-        // ✅ Merge local profileImage if exists
+        //  Merge local profileImage if exists
         const localProfileImage = localStorage.getItem('profileImage');
         const mergedUser = localProfileImage
           ? { ...user, profileImage: localProfileImage }

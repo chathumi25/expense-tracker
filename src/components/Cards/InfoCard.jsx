@@ -25,7 +25,7 @@ const InfoCard = ({ icon, label, value, color }) => {
           {label}
         </h6>
         <span className="text-[22px] font-semibold text-[#020748ee]">
-          ${value}
+          Rs{value}
         </span>
       </div>
     </div>

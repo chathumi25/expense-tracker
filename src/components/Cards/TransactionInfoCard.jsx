@@ -17,11 +17,17 @@ const TransactionInfoCard = ({
     ? "from-blue-50/70 to-red-50/40 border-blue-200 hover:from-blue-100 hover:to-red-100 hover:border-red-400"
     : "from-blue-50/70 to-green-50/70 border-green-200 hover:from-blue-100 hover:to-green-100 hover:border-green-400";
 
-  // Icon background (unchanged)
+  // Icon background
   const iconBg = isExpense ? "bg-red-100 text-red-600" : "bg-green-100 text-blue-600";
 
   // Amount text color
   const amountColor = isExpense ? "text-red-600" : "text-green-600";
+
+  // Format number with commas
+  const formatAmount = (amt) => {
+    if (!amt) return "0.00";
+    return Number(amt).toLocaleString("en-IN"); // Indian number format
+  };
 
   return (
     <div
@@ -48,10 +54,10 @@ const TransactionInfoCard = ({
       {/* ===== Amount & Delete Section ===== */}
       <div className="flex items-center gap-3">
         <div className={`text-sm font-semibold ${amountColor}`}>
-          {isExpense ? "-" : "+"}${amount || "0.00"}
+          {isExpense ? "-" : "+"}Rs {formatAmount(amount)}
         </div>
 
-        {/* Delete Button moved next to amount without overlapping */}
+        {/* Delete Button */}
         {!hideDeleteBtn && (
           <button
             className="text-gray-400 hover:text-red-600 transition-all duration-300"

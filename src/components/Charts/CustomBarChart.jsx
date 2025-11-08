@@ -14,7 +14,10 @@ const CustomBarChart = ({ data }) => {
   const [selectedBar, setSelectedBar] = useState(null);
   const [hoveredBar, setHoveredBar] = useState(null);
 
-  // 🔴 Elegant Expense Red Theme
+  // Format numbers with commas + Rs
+  const formatAmount = (amt) => `Rs ${Number(amt).toLocaleString("en-IN")}`;
+
+  // Elegant Expense Red Theme
   const getBarColor = (index) => {
     if (index === hoveredBar) return '#f87171'; // hover red
     if (index === selectedBar) return '#991b1b'; // deep red on click
@@ -31,7 +34,7 @@ const CustomBarChart = ({ data }) => {
           <p className="text-sm text-gray-600">
             Amount:{' '}
             <span className="font-medium text-[#dc2626]">
-              ${payload[0].payload.amount}
+              {formatAmount(payload[0].payload.amount)}
             </span>
           </p>
         </div>
@@ -67,7 +70,7 @@ const CustomBarChart = ({ data }) => {
             />
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ fill: 'rgba(220,38,38,0.08)' }} // transparent red hover
+              cursor={{ fill: 'rgba(220,38,38,0.08)' }}
             />
             <Bar
               dataKey="amount"

@@ -12,6 +12,9 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
 
   if (!data || data.length === 0) return null;
 
+  // Format numbers with commas
+  const formatAmount = (amt) => `Rs ${Number(amt).toLocaleString("en-IN")}`;
+
   // ✅ Custom Tooltip with dynamic color border/text
   const CustomStyledTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -28,7 +31,7 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
           }}
         >
           <p className="font-semibold">{entry.name}</p>
-          <p className="text-base">${Number(entry.value).toLocaleString()}</p>
+          <p className="text-base">{formatAmount(entry.value)}</p>
         </div>
       );
     }
@@ -61,18 +64,17 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
             ))}
           </Pie>
 
-          {/* ✅ Tooltip with color styling */}
           <Tooltip content={<CustomStyledTooltip />} />
 
           <Legend verticalAlign="bottom" height={36} />
         </PieChart>
       </ResponsiveContainer>
 
-      {/* ✅ Center total label and active section */}
+      {/* Center total label and active section */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span className="text-primary font-semibold">{label}</span>
         <span className="text-2xl md:text-3xl font-bold text-gray-900">
-          ${Number(totalAmount).toLocaleString()}
+          {formatAmount(totalAmount)}
         </span>
 
         {activeIndex !== null && (
@@ -83,7 +85,7 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
               color: COLORS[data[activeIndex].type],
             }}
           >
-            {data[activeIndex].name}: ${data[activeIndex].value.toLocaleString()}
+            {data[activeIndex].name}: {formatAmount(data[activeIndex].value)}
           </span>
         )}
       </div>

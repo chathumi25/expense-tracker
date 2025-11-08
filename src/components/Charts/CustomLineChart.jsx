@@ -11,6 +11,9 @@ import {
 
 const CustomLineChart = ({ data }) => {
 
+  // Format numbers with Rs + commas
+  const formatAmount = (amt) => `Rs ${Number(amt || 0).toLocaleString("en-IN")}`;
+
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const record = payload[0].payload; // get the data point object
@@ -23,15 +26,15 @@ const CustomLineChart = ({ data }) => {
           padding: '8px 10px',
           border: '1px solid #d1d5db'
         }}>
-          {/* ✅ Show source instead of date */}
+          {/* Show source instead of date */}
           <p style={{ fontSize: '13px', fontWeight: 600, color: '#2563eb', marginBottom: '4px' }}>
             {record.source || 'Unknown Source'}
           </p>
 
-          {/* ✅ Show amount in red */}
+          {/* Show amount in red with Rs */}
           <p style={{ fontSize: '14px', color: '#374151' }}>
             Amount: <span style={{ fontWeight: 500, color: '#b91c1c' }}>
-              ${record.amount?.toLocaleString() || 0}
+              {formatAmount(record.amount)}
             </span>
           </p>
         </div>
