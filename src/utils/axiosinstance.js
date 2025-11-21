@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "./apiPaths";  
+import { BASE_URL } from "./apiPaths";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL || "http://localhost:8000",
@@ -10,14 +10,15 @@ const axiosInstance = axios.create({
   },
 });
 
-//  Attach JWT token if available
+// Attach JWT token if available
 axiosInstance.interceptors.request.use(
   (config) => {
+    if (!config.headers) config.headers = {}; // Ensure headers exist
     const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
 
-    //  Prevent caching for GET requests (safe version)
-    if (config.method === "get" && config.url) {
+    // Prevent caching for GET requests
+    if (config.method?.toLowerCase() === "get" && config.url) {
       const separator = config.url.includes("?") ? "&" : "?";
       config.url = `${config.url}${separator}_=${Date.now()}`;
     }
@@ -27,15 +28,20 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-//  Response interceptor for errors
+// Response interceptor for errors
 axiosInstance.interceptors.response.use(
-  (res) => res,
+  (response) => response,
   (error) => {
-    if (error.response) {
-      if (error.response.status === 401) window.location.href = "/login";
-      else if (error.response.status === 500) console.error("Server error");
-    } else if (error.code === "ECONNABORTED") console.error("Request timeout");
-    else console.error("Network error:", error.message);
+    const status = error?.response?.status;
+    if (status === 401) {
+      window.location.href = "/login";
+    } else if (status === 500) {
+      console.error("Server error");
+    } else if (error.code === "ECONNABORTED") {
+      console.error("Request timeout");
+    } else {
+      console.error("Network error:", error.message);
+    }
 
     return Promise.reject(error);
   }
