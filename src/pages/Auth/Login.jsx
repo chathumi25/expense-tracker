@@ -62,7 +62,7 @@ const Login = () => {
             value={email}
             onChange={({ target }) => setEmail(target.value)}
             label="Email Address"
-            placeholder="rmcn@gmail.com"
+            placeholder="user@gmail.com"
             type="text"
             className="mb-4"
           />
@@ -71,7 +71,7 @@ const Login = () => {
             value={password}
             onChange={({ target }) => setPassword(target.value)}
             label="Password"
-            placeholder="********"
+            placeholder="*********"
             type="password"
           />
 
