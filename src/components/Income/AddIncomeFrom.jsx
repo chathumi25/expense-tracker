@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import EmojiPickerPop from '../EmojiPickerPop';
+import React, { useState, Suspense } from 'react';
 
-const AddIncomeFrom = ({ onAddIncome }) => {
+// Lazy-load EmojiPickerPop
+const EmojiPickerPop = React.lazy(() => import('../EmojiPickerPop'));
+
+const AddIncomeForm = ({ onAddIncome }) => {
   const [income, setIncome] = useState({
     source: "",
     amount: "",
@@ -9,7 +11,12 @@ const AddIncomeFrom = ({ onAddIncome }) => {
     icon: "",
   });
 
-  const handleChange = (key, value) => setIncome({ ...income, [key]: value });
+  const handleChange = (key, value) => setIncome(prev => ({ ...prev, [key]: value }));
+
+  const handleSubmit = () => {
+    onAddIncome(income);
+    setIncome({ source: "", amount: "", date: "", icon: "" }); // Clear form after submission
+  };
 
   return (
     <div className="space-y-4">
@@ -17,10 +24,12 @@ const AddIncomeFrom = ({ onAddIncome }) => {
       <div className="flex flex-col">
         <label className="text-sm font-medium mb-1">Income Source</label>
 
-        <EmojiPickerPop
-          icon={income.icon}
-          onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
-        />
+        <Suspense fallback={<div>Loading emoji picker...</div>}>
+          <EmojiPickerPop
+            icon={income.icon}
+            onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
+          />
+        </Suspense>
 
         <input
           value={income.source}
@@ -59,7 +68,7 @@ const AddIncomeFrom = ({ onAddIncome }) => {
         <button
           type="button"
           className="px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors"
-          onClick={() => onAddIncome(income)}
+          onClick={handleSubmit}
         >
           Add Income
         </button>
@@ -68,4 +77,4 @@ const AddIncomeFrom = ({ onAddIncome }) => {
   );
 };
 
-export default AddIncomeFrom;
+export default AddIncomeForm;

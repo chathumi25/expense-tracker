@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import ExpenseOverview from "../../components/Expense/ExpenseOverview";
-import ExpenseList from "../../components/Expense/ExpenseList";
-import Modal from "../../components/Modal";
-import AddExpenseForm from "../../components/Expense/AddExpenseForm";
-import DeleteAlert from "../../components/DeleteAlert";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { useUserAuth } from "../../hooks/useUserAuth";
+
+// Lazy-loaded components
+const ExpenseOverview = React.lazy(() => import("../../components/Expense/ExpenseOverview"));
+const ExpenseList = React.lazy(() => import("../../components/Expense/ExpenseList"));
+const Modal = React.lazy(() => import("../../components/Modal"));
+const AddExpenseForm = React.lazy(() => import("../../components/Expense/AddExpenseForm"));
+const DeleteAlert = React.lazy(() => import("../../components/DeleteAlert"));
 
 const Expense = () => {
   useUserAuth();
@@ -17,15 +19,12 @@ const Expense = () => {
   const [expenseData, setExpenseData] = useState([]);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ show: false, data: null });
 
-  //  Fetch all expense records
+  // Fetch all expense records
   const fetchExpenseDetails = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.EXPENSE.GET_ALL_EXPENSE);
-      if (response?.data && Array.isArray(response.data)) {
-        setExpenseData(response.data);
-      } else {
-        setExpenseData([]);
-      }
+      setExpenseData(Array.isArray(response?.data) ? response.data : []);
+      console.log("✅ Expense data fetched:", response.data);
     } catch (error) {
       console.error("❌ Error fetching expenses:", error);
       toast.error("Failed to fetch expense data");
@@ -36,41 +35,25 @@ const Expense = () => {
     fetchExpenseDetails();
   }, []);
 
-  //  Add a new expense
+  // Add a new expense
   const handleAddExpense = async (expense) => {
     const { source, amount, date, icon } = expense;
-
-    if (!source.trim()) {
-      toast.error("Source is required.");
-      return;
-    }
-    if (!amount || isNaN(amount) || Number(amount) <= 0) {
-      toast.error("Amount should be a valid number greater than 0.");
-      return;
-    }
-    if (!date) {
-      toast.error("Date is required.");
-      return;
-    }
+    if (!source.trim()) { toast.error("Source is required."); return; }
+    if (!amount || isNaN(amount) || Number(amount) <= 0) { toast.error("Amount should be a valid number greater than 0."); return; }
+    if (!date) { toast.error("Date is required."); return; }
 
     try {
-      const response = await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, {
-        category: source, // map 'source' → 'category'
-        amount,
-        date,
-        icon,
-      });
-
+      await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, { category: source, amount, date, icon });
       toast.success("Expense added successfully!");
       setOpenAddExpenseModal(false);
-      await fetchExpenseDetails();
+      fetchExpenseDetails();
     } catch (error) {
       console.error("❌ Error adding expense:", error);
       toast.error("Failed to add expense");
     }
   };
 
-  //  Delete expense
+  // Delete an expense
   const deleteExpense = async (id) => {
     try {
       await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
@@ -83,14 +66,10 @@ const Expense = () => {
     }
   };
 
-  //  Download expense details
+  // Download expense details
   const handleDownloadExpenseDetails = async () => {
     try {
-      const response = await axiosInstance.get(API_PATHS.EXPENSE.DOWNLOAD_EXPENSE, {
-        responseType: "blob",
-      });
-
-      // Create blob URL for Excel download
+      const response = await axiosInstance.get(API_PATHS.EXPENSE.DOWNLOAD_EXPENSE, { responseType: "blob" });
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -109,43 +88,49 @@ const Expense = () => {
   return (
     <DashboardLayout activeMenue="Expense">
       <div className="my-5 mx-auto">
-        {/* Expense Overview */}
-        <div className="grid grid-cols-1 gap-6">
+        <Suspense fallback={<div>Loading Expense Overview...</div>}>
           <ExpenseOverview
             transactions={expenseData}
             onAddExpense={() => setOpenAddExpenseModal(true)}
           />
-        </div>
+        </Suspense>
 
-        {/* Expense List */}
         <div className="mt-8">
-          <ExpenseList
-            transactions={expenseData}
-            onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
-            onDownload={handleDownloadExpenseDetails}  
-          />
+          <Suspense fallback={<div>Loading Expense List...</div>}>
+            <ExpenseList
+              transactions={expenseData}
+              onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
+              onDownload={handleDownloadExpenseDetails}
+            />
+          </Suspense>
         </div>
 
-        {/* Add Expense Modal */}
-        <Modal
-          isOpen={openAddExpenseModal}
-          onClose={() => setOpenAddExpenseModal(false)}
-          title="Add Expense"
-        >
-          <AddExpenseForm onAddExpense={handleAddExpense} />
-        </Modal>
+        <Suspense fallback={null}>
+          <Modal
+            isOpen={openAddExpenseModal}
+            onClose={() => setOpenAddExpenseModal(false)}
+            title="Add Expense"
+          >
+            <Suspense fallback={<div>Loading Form...</div>}>
+              <AddExpenseForm onAddExpense={handleAddExpense} />
+            </Suspense>
+          </Modal>
+        </Suspense>
 
-        {/* Delete Expense Modal */}
-        <Modal
-          isOpen={openDeleteAlert.show}
-          onClose={() => setOpenDeleteAlert({ show: false, data: null })}
-          title="Delete Expense"
-        >
-          <DeleteAlert
-            content="Are you sure you want to delete this expense?"
-            onDelete={() => deleteExpense(openDeleteAlert.data)}
-          />
-        </Modal>
+        <Suspense fallback={null}>
+          <Modal
+            isOpen={openDeleteAlert.show}
+            onClose={() => setOpenDeleteAlert({ show: false, data: null })}
+            title="Delete Expense"
+          >
+            <Suspense fallback={<div>Loading...</div>}>
+              <DeleteAlert
+                content="Are you sure you want to delete this expense?"
+                onDelete={() => deleteExpense(openDeleteAlert.data)}
+              />
+            </Suspense>
+          </Modal>
+        </Suspense>
       </div>
     </DashboardLayout>
   );

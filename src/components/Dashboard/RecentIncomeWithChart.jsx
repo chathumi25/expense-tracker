@@ -10,7 +10,6 @@ const RecentIncomeWithChart = ({ data = [] }) => {
     if (!Array.isArray(data) || data.length === 0) {
       return [{ name: "Income", value: 0, color: COLORS[0] }];
     }
-
     return data.map((item, index) => ({
       name: item?.source || `Income ${index + 1}`,
       value: Number(item?.amount) || 0,
@@ -44,25 +43,26 @@ const RecentIncomeWithChart = ({ data = [] }) => {
         />
       </div>
 
-      {/* Horizontal Labels (no values) */}
+      {/* Legend */}
       <div className="flex flex-wrap justify-center gap-4">
         {visibleItems.map((item, index) => (
           <div key={index} className="flex items-center gap-2">
-            <div
+            <span
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: item.color }}
-            ></div>
+            ></span>
             <span className="font-medium text-gray-700 text-sm">{item.name}</span>
           </div>
         ))}
       </div>
 
-      {/* See More Button */}
+      {/* See More / See Less Button */}
       {hasMore && (
         <div className="text-center mt-4">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="text-blue-600 font-medium hover:underline"
+            className="text-blue-600 font-medium hover:underline focus:outline-none"
+            aria-label={showAll ? "See less income items" : "See more income items"}
           >
             {showAll ? "See Less" : "See More"}
           </button>

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import EmojiPickerPop from '../EmojiPickerPop';
+import React, { useState, Suspense } from 'react';
+
+// Lazy-load EmojiPickerPop
+const EmojiPickerPop = React.lazy(() => import('../EmojiPickerPop'));
 
 const AddExpenseForm = ({ onAddExpense }) => {
   const [expense, setExpense] = useState({
@@ -9,7 +11,7 @@ const AddExpenseForm = ({ onAddExpense }) => {
     icon: "",
   });
 
-  const handleChange = (key, value) => setExpense({ ...expense, [key]: value });
+  const handleChange = (key, value) => setExpense(prev => ({ ...prev, [key]: value }));
 
   const handleSubmit = () => {
     const source = expense.source.trim();
@@ -17,24 +19,15 @@ const AddExpenseForm = ({ onAddExpense }) => {
     const date = expense.date;
     const icon = expense.icon || "💰";
 
-    //  Validation
-    if (!source) {
-      alert("Source is required");
-      return;
-    }
-    if (!amount || isNaN(amount) || amount <= 0) {
-      alert("Amount should be a valid number greater than 0");
-      return;
-    }
-    if (!date) {
-      alert("Date is required");
-      return;
-    }
+    // Validation
+    if (!source) return alert("Source is required");
+    if (!amount || isNaN(amount) || amount <= 0) return alert("Amount should be a valid number greater than 0");
+    if (!date) return alert("Date is required");
 
-    //  Send data to backend (map source → category)
+    // Send data to backend
     onAddExpense({ source, amount, date, icon });
 
-    //  Clear form
+    // Clear form
     setExpense({ source: "", amount: "", date: "", icon: "" });
   };
 
@@ -43,10 +36,14 @@ const AddExpenseForm = ({ onAddExpense }) => {
       {/* Source */}
       <div className="flex flex-col">
         <label className="text-sm font-medium mb-1">Expense Source</label>
-        <EmojiPickerPop
-          icon={expense.icon}
-          onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
-        />
+
+        <Suspense fallback={<div>Loading emoji picker...</div>}>
+          <EmojiPickerPop
+            icon={expense.icon}
+            onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
+          />
+        </Suspense>
+
         <input
           value={expense.source}
           onChange={({ target }) => handleChange("source", target.value)}
@@ -83,7 +80,7 @@ const AddExpenseForm = ({ onAddExpense }) => {
       <div className="flex justify-end mt-4">
         <button
           type="button"
-          className="px-4 py-2 text-white bg-[#b91c1c] hover:bg-[#7f1d1d] rounded-md transition-colors"
+          className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors"
           onClick={handleSubmit}
         >
           Add Expense

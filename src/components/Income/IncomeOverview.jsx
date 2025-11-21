@@ -6,7 +6,10 @@ const IncomeOverview = ({ transactions = [], onAddIncome }) => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    if (!Array.isArray(transactions)) return;
+    if (!Array.isArray(transactions) || transactions.length === 0) {
+      setChartData([]);
+      return;
+    }
 
     // Aggregate transactions by source
     const aggregatedData = transactions
@@ -26,7 +29,6 @@ const IncomeOverview = ({ transactions = [], onAddIncome }) => {
       }, []);
 
     setChartData(aggregatedData);
-    console.log(" Income chart data:", aggregatedData); 
   }, [transactions]);
 
   return (
@@ -45,14 +47,14 @@ const IncomeOverview = ({ transactions = [], onAddIncome }) => {
         {/* Add Income Button */}
         <button
           onClick={onAddIncome}
-          className="add-btn flex items-center gap-1.5 text-sm font-medium text-[#068133] bg-[#f0fdf4] border border-[#22c55e] rounded-lg px-4 py-2 hover:bg-[#22c55e] hover:text-white transition"
+          className="add-btn flex items-center gap-1.5 text-sm font-medium text-[#068133] bg-[#f0fdf4] border border-[#22c55e] rounded-lg px-4 py-2 hover:bg-[#22c55e] hover:text-white transition-colors duration-200"
         >
           <LuPlus /> Add Income
         </button>
       </div>
 
       {/* Chart Section */}
-      <div className="mt-10">
+      <div className="mt-8">
         <CustomIncomeBarChart data={chartData} />
       </div>
     </div>
