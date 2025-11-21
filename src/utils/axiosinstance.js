@@ -1,8 +1,10 @@
+// src/utils/axiosinstance.js
 import axios from "axios";
 import { BASE_URL } from "./apiPaths";
 
+// Create axios instance with proper baseURL
 const axiosInstance = axios.create({
-  baseURL: BASE_URL || "http://localhost:8000",
+  baseURL: BASE_URL, // uses correct URL from apiPaths
   timeout: 20000,
   headers: {
     "Content-Type": "application/json",
@@ -13,7 +15,9 @@ const axiosInstance = axios.create({
 // Attach JWT token if available
 axiosInstance.interceptors.request.use(
   (config) => {
-    if (!config.headers) config.headers = {}; // Ensure headers exist
+    if (!config.headers) config.headers = {};
+
+    // Add Authorization header
     const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
 
@@ -33,10 +37,14 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
+
     if (status === 401) {
+      // Unauthorized, redirect to login
       window.location.href = "/login";
+    } else if (status === 404) {
+      console.error("Resource not found:", error.response?.config?.url);
     } else if (status === 500) {
-      console.error("Server error");
+      console.error("Server error:", error.response?.data?.message || "Internal server error");
     } else if (error.code === "ECONNABORTED") {
       console.error("Request timeout");
     } else {
