@@ -6,7 +6,7 @@ import Modal from "../../components/Modal";
 import AddExpenseForm from "../../components/Expense/AddExpenseForm";
 import DeleteAlert from "../../components/DeleteAlert";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { useUserAuth } from "../../hooks/useUserAuth";
 
