@@ -58,11 +58,17 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
+      <div className="height: 20px;"></div>
       {/* Mobile-friendly scrollable container */}
-      <div className="flex justify-center items-start w-full min-h-screen px-2 ">
+      <div className="flex justify-center items-start w-full min-h-screen px-3 ">
   <div className="bg-white shadow-md rounded-30 p-20 w-full max-w-s sm:max-w-m
                   border border-gray-100
                   max-h-[190vh] overflow-y-auto flex flex-col mb">
+
+
+         <div className="padding-top: 200px;"></div>
+         <div className="height: 20px;"></div>
+         
           {/* Title */}
          <div className="h-10"></div> 
           <h3 className="text-sm sm:text-base font-semibold text-[#040c78] text-center mb-3">
