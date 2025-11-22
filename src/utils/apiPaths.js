@@ -3,8 +3,9 @@
 // Use localhost for development, hosted backend URL for production
 export const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://expense-tracker-m7h2.onrender.com"   // ✔ your real backend URL
-    : "http://localhost:8000";
+  ? "https://expense-tracker-mtvt.onrender.com"
+  : "http://localhost:8000";
+
 
 
 export const API_PATHS = {
