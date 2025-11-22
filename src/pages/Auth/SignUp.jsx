@@ -70,110 +70,114 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <div className="flex justify-center items-center w-full h-full py-10">
-        <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md md:max-w-lg lg:max-w-xl border border-gray-100">
-          <h3 className="text-2xl font-bold text-[#040c78] mb-2 tracking-wide text-center">
-            Create an Account
-          </h3>
-          <p className="text-sm text-gray-600 text-center mt-2 mb-5">
-            Join us today by entering your details below.
-          </p>
+  <div className="flex justify-center items-start w-full min-h-screen px-4 py-4">
 
-          <form onSubmit={handleSignUp} className="space-y-4">
-            
-            {/*  Stylish Upload Section */}
-            <div className="flex flex-col items-center mb-3 relative">
-              <label
-                htmlFor="profilePic"
-                className="relative cursor-pointer flex items-center justify-center w-28 h-28 rounded-full border-2 border-blue-400 bg-gradient-to-br from-blue-50 to-white shadow-md hover:shadow-blue-300/50 transition-all duration-300 ease-in-out hover:scale-105"
-              >
-                {profilePic ? (
-                  <img
-                    src={profilePic}
-                    alt="Profile Preview"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-gray-500">
-                    <LuCamera size={26} className="mb-1 opacity-70" />
-                    <span className="text-xs font-medium">Upload</span>
-                  </div>
-                )}
+    <div className="bg-white shadow-md rounded-xl p-4 
+                    w-full max-w-sm md:max-w-md 
+                    border border-gray-100">
 
-                {/*  small camera overlay in bottom-right */}
-                {profilePic && (
-                  <div className="absolute bottom-1 right-1 bg-blue-500 rounded-full p-1.5 shadow-md hover:bg-blue-600 transition">
-                    <LuCamera size={16} color="#fff" />
-                  </div>
-                )}
-              </label>
+      <h3 className="text-lg font-bold text-[#040c78] text-center mb-1">
+        Create an Account
+      </h3>
 
-              <input
-                id="profilePic"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    setProfileFile(file);
-                    const reader = new FileReader();
-                    reader.onload = () => setProfilePic(reader.result);
-                    reader.readAsDataURL(file);
-                  }
-                }}
+      <p className="text-[10px] text-gray-600 text-center mb-2">
+        Join us today by entering your details below.
+      </p>
+
+      <form onSubmit={handleSignUp} className="space-y-2">
+
+        {/* SMALLER HEIGHT PROFILE IMAGE */}
+        <div className="flex flex-col items-center mb-1 relative">
+          <label
+            htmlFor="profilePic"
+            className="cursor-pointer flex items-center justify-center 
+                       w-20 h-20 rounded-full border border-blue-400
+                       bg-gradient-to-br from-blue-50 to-white shadow-sm 
+                       transition-all duration-200 hover:scale-105"
+          >
+            {profilePic ? (
+              <img
+                src={profilePic}
+                alt="Profile Preview"
+                className="w-full h-full rounded-full object-cover"
               />
-            </div>
-
-            <Input
-              value={fullName}
-              onChange={({ target }) => setFullName(target.value)}
-              label="Full Name"
-              placeholder="John Doe"
-              type="text"
-            />
-
-            <Input
-              value={email}
-              onChange={({ target }) => setEmail(target.value)}
-              label="Email Address"
-              placeholder="john@gmail.com"
-              type="text"
-            />
-
-            <Input
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-              label="Password"
-              placeholder="********"
-              type="password"
-              showEyeIcon={false}
-            />
-
-            {error && (
-              <p className="text-red-500 text-xs text-center -mt-1">{error}</p>
+            ) : (
+              <div className="flex flex-col items-center text-gray-500">
+                <LuCamera size={18} />
+                <span className="text-[9px] mt-0.5">Upload</span>
+              </div>
             )}
+          </label>
 
-            <button
-              type="submit"
-              className="btn-primary mt-6 shadow-lg hover:shadow-blue-400/30"
-            >
-              SIGN UP
-            </button>
-
-            <p className="text-sm text-gray-700 text-center mt-4">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="font-medium text-blue-600 hover:underline"
-              >
-                Login
-              </Link>
-            </p>
-          </form>
+          <input
+            id="profilePic"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                setProfileFile(file);
+                const reader = new FileReader();
+                reader.onload = () => setProfilePic(reader.result);
+                reader.readAsDataURL(file);
+              }
+            }}
+          />
         </div>
-      </div>
-    </AuthLayout>
+
+        {/* INPUTS SMALLER HEIGHT */}
+        <Input
+          value={fullName}
+          onChange={({ target }) => setFullName(target.value)}
+          label="Full Name"
+          placeholder="John Doe"
+          type="text"
+          className="py-1 text-sm"
+        />
+
+        <Input
+          value={email}
+          onChange={({ target }) => setEmail(target.value)}
+          label="Email Address"
+          placeholder="john@gmail.com"
+          type="text"
+          className="py-1 text-sm"
+        />
+
+        <Input
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          label="Password"
+          placeholder="********"
+          type="password"
+          showEyeIcon={false}
+          className="py-1 text-sm"
+        />
+
+        {error && (
+          <p className="text-red-500 text-[10px] text-center -mt-1">{error}</p>
+        )}
+
+        {/* SMALLER HEIGHT BUTTON */}
+        <button
+          type="submit"
+          className="btn-primary w-full py-1.5 text-sm mt-2 shadow hover:shadow-md"
+        >
+          SIGN UP
+        </button>
+
+        <p className="text-[10px] text-center text-gray-700 mt-1">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 font-medium hover:underline">
+            Login
+          </Link>
+        </p>
+      </form>
+    </div>
+  </div>
+</AuthLayout>
+
   );
 };
 

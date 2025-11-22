@@ -104,6 +104,7 @@ const SideMenu = ({ activeMenue }) => {
                 src={tempImage + `?t=${new Date().getTime()}`}
                 alt="Profile"
                 className="profile-image rounded-full w-full h-full object-cover"
+                style={{ width: '80px', height: '80px' }}
               />
               <button
                 onClick={handleDeleteImage}
