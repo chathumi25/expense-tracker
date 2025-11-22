@@ -39,7 +39,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 10px;
   color: #1f2937;
 }
 
@@ -55,7 +55,7 @@
 /* Button styles */
 .btn-primary {
   @apply w-full flex items-center justify-center gap-3 text-sm 
-         px-5 py-3 rounded-xl font-semibold text-white cursor-pointer 
+         px-5 py-2 rounded-xl font-semibold text-white cursor-pointer 
          transition-all duration-300 ease-in-out;
 
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(59, 130, 246, 0.8));

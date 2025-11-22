@@ -26,7 +26,8 @@ const AuthLayout = ({ children }) => {
       <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-white to-green-200 animate-[pulse_8s_infinite_alternate] opacity-60 blur-3xl"></div>
 
       {/* Left Section (Form Side) */}
-      <div className="w-screen h-screen md:w-[60vw] px-10 pt-10 pb-10 flex flex-col items-center justify-between relative z-10">
+      <div className="w-screen h-screen md:w-[60vw] px-4 sm:px-10 pt-10 pb-10 flex flex-col items-center justify-between relative z-10">
+
         <style>{`
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -46,7 +47,8 @@ const AuthLayout = ({ children }) => {
         </h2>
 
         {/* Login/Register Form */}
-        <div className="flex-1 flex items-center justify-center w-full animate-fadeIn">
+        <div className="flex-1 flex items-center justify-center w-full animate-fadeIn
+                        overflow-y-auto max-h-[70vh] sm:max-h-[80vh]">
           {children}
         </div>
 

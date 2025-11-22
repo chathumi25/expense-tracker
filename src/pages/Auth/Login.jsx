@@ -86,7 +86,7 @@ const Login = () => {
             LOGIN
           </button>
 
-          <p className="text-sm text-gray-700 mt-5 text-center">
+          <p className="text-[10px] text-gray-700 mt-5 text-center">
             Don't have an account?{" "}
             <Link
               to="/signup"

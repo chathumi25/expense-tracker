@@ -48,8 +48,8 @@ const CustomPieChart = ({ data, label, totalAmount }) => {
             nameKey="name"
             cx="50%"
             cy="50%"
-            innerRadius={120}
-            outerRadius={160}
+            innerRadius={100}
+            outerRadius={140}
             label={false}
             onClick={(_, index) => setActiveIndex(index === activeIndex ? null : index)}
           >

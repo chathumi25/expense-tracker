@@ -49,8 +49,9 @@ const CustomIncomeBarChart = ({ data = [] }) => {
     setChartData(aggregated);
   }, [data]);
 
+  // Dynamic bar size based on data
   const dynamicBarSize =
-    chartData.length > 0 ? Math.max(20, Math.floor(400 / chartData.length)) : 50;
+    chartData.length > 0 ? Math.max(20, Math.floor(300 / chartData.length)) : 50;
 
   const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
@@ -60,8 +61,8 @@ const CustomIncomeBarChart = ({ data = [] }) => {
 
     return (
       <div className="bar-tooltip bg-white shadow-md rounded-md p-2 border border-gray-200">
-        <p className="text-xs font-semibold text-[#065f46] mb-1">{source}</p>
-        <p className="text-sm text-gray-600">
+        <p className="text-xs sm:text-sm font-semibold text-[#065f46] mb-1">{source}</p>
+        <p className="text-xs sm:text-sm text-gray-600">
           Amount:{" "}
           <span className="font-medium text-[#16a34a]">{formatAmount(amount)}</span>
         </p>
@@ -71,58 +72,57 @@ const CustomIncomeBarChart = ({ data = [] }) => {
 
   return (
     <div
-      className="mt-14 mb-6 rounded-2xl shadow-md border border-[#22c55e]/20 p-4"
+      className="mt-8 mb-6 rounded-2xl shadow-md border border-[#22c55e]/20 p-3 sm:p-4 md:p-6"
       style={{
         background: "linear-gradient(to bottom right, #ecfdf5, #eff6ff)",
       }}
     >
       <div className="chart-wrapper w-full">
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            data={chartData}
-            barSize={dynamicBarSize}
-            barCategoryGap="8%"
-            margin={{ top: 20, right: 0, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(209, 213, 219, 0.7)" />
-            <XAxis
-              dataKey="source"
-              tick={{ fontSize: 12, fill: "#1e3a8a" }}
-              axisLine={false}
-              tickLine={false}
-              interval={0}
-              dy={10}
-            />
-            <YAxis
-              tick={{ fontSize: 12, fill: "#065f46" }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(37,99,235,0.08)" }} />
-            <Bar
-              dataKey="amount"
-              radius={[6, 6, 0, 0]}
-              onClick={(_, index) => setSelectedBar(index)}
-              onMouseEnter={(_, index) => setHoveredBar(index)}
-              onMouseLeave={() => setHoveredBar(null)}
-            >
-              {chartData.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={getBarColor(index)}
-                  cursor="pointer"
-                  style={{
-                    transition: "all 0.3s ease-in-out",
-                    filter:
-                      index === hoveredBar
-                        ? "drop-shadow(0 3px 6px rgba(37,99,235,0.3))"
-                        : "drop-shadow(0 1px 2px rgba(0,0,0,0.1))",
-                  }}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={300}>
+  <BarChart
+    data={chartData}
+    barSize={dynamicBarSize}
+    barCategoryGap="8%"
+    margin={{ top: 20, right: 0, left: 0, bottom: 0 }}
+  >
+    <CartesianGrid strokeDasharray="3 3" stroke="rgba(209, 213, 219, 0.7)" />
+    <XAxis
+      dataKey="source"
+      tick={false} // hide X-axis labels
+      axisLine={false}
+      tickLine={false}
+    />
+    <YAxis
+      tick={{ fontSize: 10, fill: "#065f46" }}
+      axisLine={false}
+      tickLine={false}
+    />
+    <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(37,99,235,0.08)" }} />
+    <Bar
+      dataKey="amount"
+      radius={[6, 6, 0, 0]}
+      onClick={(_, index) => setSelectedBar(index)}
+      onMouseEnter={(_, index) => setHoveredBar(index)}
+      onMouseLeave={() => setHoveredBar(null)}
+    >
+      {chartData.map((_, index) => (
+        <Cell
+          key={`cell-${index}`}
+          fill={getBarColor(index)}
+          cursor="pointer"
+          style={{
+            transition: "all 0.3s ease-in-out",
+            filter:
+              index === hoveredBar
+                ? "drop-shadow(0 3px 6px rgba(37,99,235,0.3))"
+                : "drop-shadow(0 1px 2px rgba(0,0,0,0.1))",
+          }}
+        />
+      ))}
+    </Bar>
+  </BarChart>
+</ResponsiveContainer>
+
       </div>
     </div>
   );

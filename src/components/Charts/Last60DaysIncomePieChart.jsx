@@ -14,8 +14,8 @@ const Last60DaysIncomePieChart = ({ data = [], totalAmount = 0, small = false })
       ? data
       : [{ name: "Income", value: totalAmount, color: DEFAULT_COLORS[0] }];
 
-  const innerRadius = small ? 100 : 120;
-  const outerRadius = small ? 140 : 160;
+  const innerRadius = small ? 100 : 100;
+  const outerRadius = small ? 140 : 140;
 
   return (
     <div className="relative w-full h-80 md:h-[380px]">

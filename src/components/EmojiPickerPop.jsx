@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import EmojiPicker from 'emoji-picker-react';
+import React, { useState, Suspense } from 'react';
 import { LuImage, LuX } from "react-icons/lu";
+
+// Lazy load the heavy EmojiPicker component
+const EmojiPicker = React.lazy(() => import('emoji-picker-react'));
 
 const EmojiPickerPop = ({ icon, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex flex-col md:flex-row items-start gap-2 mb-2">
-
       {/* Icon Button */}
       <div
         className="flex items-center gap-2 cursor-pointer"
@@ -25,22 +26,22 @@ const EmojiPickerPop = ({ icon, onSelect }) => {
 
       {/* Emoji Picker Popup */}
       {isOpen && (
-        <div className="relative">
+        <div className="relative z-50">
           <button
-            className="w-5 h-5 flex items-center justify-center bg-white border border-gray-300 rounded-full absolute top-1 right-1 z-10 cursor-pointer"
+            className="w-5 h-5 flex items-center justify-center bg-white border border-gray-300 rounded-full absolute top-1 right-1 cursor-pointer z-10"
             onClick={() => setIsOpen(false)}
           >
             <LuX size={12} />
           </button>
 
-          <EmojiPicker
-            open={isOpen}
-            onEmojiClick={(emoji) => onSelect(emoji?.imageUrl || "")}
-            
-            /** 👇 WIDER WIDTH, SAME HEIGHT */
-            height={300}       // small height stays
-            width={520}        // increased width
-          />
+          {/* Lazy load with Suspense */}
+          <Suspense fallback={<div className="p-4">Loading...</div>}>
+            <EmojiPicker
+              onEmojiClick={(emoji) => onSelect(emoji?.imageUrl || "")}
+              height={300}   // small height
+              width={520}    // wider width
+            />
+          </Suspense>
         </div>
       )}
     </div>
