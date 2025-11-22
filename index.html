@@ -2,11 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Use your custom SVG for favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
+
+    <!-- ⭐ FIX: adds process.env.shared for Vite browser environment -->
+    <script>
+      (function () {
+        // If Vite already injected `process`, do nothing
+        if (typeof window.process !== "undefined") return;
+
+        const hostname = window.location.hostname;
+
+        // detect prod → Vercel or custom domain
+        const isProduction =
+          hostname.includes("vercel.app") ||
+          hostname.includes("netlify.app") ||
+          hostname.includes("onrender.com");
+
+        window.process = {
+          env: {
+            NODE_ENV: isProduction ? "production" : "development",
+          }
+        };
+      })();
+    </script>
+    <!-- ⭐ END FIX -->
+
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
