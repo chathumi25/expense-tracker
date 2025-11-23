@@ -5,7 +5,7 @@ import { BASE_URL } from "./apiPaths";
 // Create axios instance with proper baseURL
 const axiosInstance = axios.create({
   baseURL: BASE_URL, // uses correct URL from apiPaths
-  timeout: 20000,
+  timeout: 60000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

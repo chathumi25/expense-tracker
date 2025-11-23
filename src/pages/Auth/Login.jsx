@@ -21,10 +21,22 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}${API_PATHS.AUTH.LOGIN}`,
-        { email, password }
-      );
+      let response;
+try {
+  response = await axios.post(
+    `${BASE_URL}${API_PATHS.AUTH.LOGIN}`,
+    { email, password }
+  );
+} catch (err) {
+  console.log("Backend cold, retrying...");
+  await new Promise(r => setTimeout(r, 1500));
+  response = await axios.post(
+    `${BASE_URL}${API_PATHS.AUTH.LOGIN}`,
+    { email, password }
+  );
+}
+
+      
 
       const { token, user } = response.data;
       if (token) {
