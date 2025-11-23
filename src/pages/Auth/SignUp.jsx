@@ -23,13 +23,32 @@ const SignUp = () => {
 
     let profileImgUrl = "";
 
-    if (!fullName.trim()) { setError("Enter full name"); return; }
-    if (!validateEmail(email.trim())) { setError("Enter valid email"); return; }
-    if (!password.trim()) { setError("Enter password"); return; }
+    // -------------------- VALIDATIONS --------------------
+    if (!fullName.trim()) {
+      setError("Enter full name");
+      return;
+    }
+
+    if (!validateEmail(email.trim())) {
+      setError("Enter valid email");
+      return;
+    }
+
+    if (!password.trim()) {
+      setError("Enter password");
+      return;
+    }
+
+    if (password.trim().length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
 
     setError("");
+    // ------------------------------------------------------
 
     try {
+      // Upload image ONLY if selected
       if (profileFile) {
         const imgUploadRes = await uploadImage(profileFile);
         profileImgUrl = imgUploadRes.imageUrl || "";
@@ -42,11 +61,11 @@ const SignUp = () => {
           fullName: fullName.trim(),
           email: email.trim(),
           password: password.trim(),
-          profileImage: profileImgUrl,
+          profileImage: profileImgUrl, // optional
         });
       } catch (error) {
         console.log("⏳ Backend cold start... retrying signup in 1.5 seconds");
-        await new Promise(res => setTimeout(res, 1500)); // Wait 1.5 seconds
+        await new Promise(res => setTimeout(res, 1500));
 
         response = await axiosInstance.post("/api/v1/auth/signup", {
           fullName: fullName.trim(),
