@@ -35,12 +35,27 @@ const SignUp = () => {
         profileImgUrl = imgUploadRes.imageUrl || "";
       }
 
-      const response = await axiosInstance.post("/api/v1/auth/signup", {
-        fullName: fullName.trim(),
-        email: email.trim(),
-        password: password.trim(),
-        profileImage: profileImgUrl,
-      });
+      // -------------- TIMEOUT FIX + RETRY LOGIC ----------------
+      let response;
+      try {
+        response = await axiosInstance.post("/api/v1/auth/signup", {
+          fullName: fullName.trim(),
+          email: email.trim(),
+          password: password.trim(),
+          profileImage: profileImgUrl,
+        });
+      } catch (error) {
+        console.log("⏳ Backend cold start... retrying signup in 1.5 seconds");
+        await new Promise(res => setTimeout(res, 1500)); // Wait 1.5 seconds
+
+        response = await axiosInstance.post("/api/v1/auth/signup", {
+          fullName: fullName.trim(),
+          email: email.trim(),
+          password: password.trim(),
+          profileImage: profileImgUrl,
+        });
+      }
+      // ----------------------------------------------------------
 
       const { token, user } = response.data;
 
@@ -59,18 +74,15 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="height: 15px;"></div>
-      {/* Mobile-friendly scrollable container */}
       <div className="flex justify-center items-start w-full min-h-screen px-3 ">
-  <div className="bg-white shadow-md rounded-30 p-19 w-full max-w-s sm:max-w-m
-                  border border-gray-100
-                  max-h-[200vh] overflow-y-auto flex flex-col mb">
+        <div className="bg-white shadow-md rounded-30 p-19 w-full max-w-s sm:max-w-m
+                        border border-gray-100
+                        max-h-[200vh] overflow-y-auto flex flex-col mb">
 
+          <div className="padding-top: 200px;"></div>
+          <div className="height: 20px;"></div>
 
-         <div className="padding-top: 200px;"></div>
-         <div className="height: 20px;"></div>
-         
-          {/* Title */}
-         <div className="h-10"></div> 
+          <div className="h-10"></div> 
           <h3 className="text-sm sm:text-base font-semibold text-[#040c78] text-center mb-3">
             Create Account
           </h3>
@@ -79,8 +91,6 @@ const SignUp = () => {
           </p>
 
           <form onSubmit={handleSignUp} className="flex flex-col gap-2">
-
-            {/* Profile Image */}
             <div className="flex flex-col items-center mb-1 relative">
               <label
                 htmlFor="profilePic"
@@ -120,7 +130,6 @@ const SignUp = () => {
               />
             </div>
 
-            {/* Inputs */}
             <Input
               value={fullName}
               onChange={({ target }) => setFullName(target.value)}
@@ -129,6 +138,7 @@ const SignUp = () => {
               type="text"
               style={{ height: "36px", fontSize: "13px" }}
             />
+
             <Input
               value={email}
               onChange={({ target }) => setEmail(target.value)}
@@ -137,6 +147,7 @@ const SignUp = () => {
               type="text"
               style={{ height: "36px", fontSize: "13px" }}
             />
+
             <Input
               value={password}
               onChange={({ target }) => setPassword(target.value)}
@@ -146,8 +157,6 @@ const SignUp = () => {
               showEyeIcon={false}
               style={{ height: "36px", fontSize: "13px" }}
             />
-
-            
 
             {error && (
               <p className="text-red-500 text-[10px] sm:text-[12px] text-center">{error}</p>
