@@ -10,7 +10,7 @@ import { LuCamera } from "react-icons/lu";
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
-  const [profileFile, setProfileFile] = useState(null); 
+  const [profileFile, setProfileFile] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,10 +45,10 @@ const SignUp = () => {
     }
 
     setError("");
-    // ------------------------------------------------------
+    // -----------------------------------------------------
 
     try {
-      // Upload image ONLY if selected
+      // Upload ONLY if user selected an image
       if (profileFile) {
         const imgUploadRes = await uploadImage(profileFile);
         profileImgUrl = imgUploadRes.imageUrl || "";
@@ -61,10 +61,10 @@ const SignUp = () => {
           fullName: fullName.trim(),
           email: email.trim(),
           password: password.trim(),
-          profileImage: profileImgUrl, // optional
+          profileImage: profileImgUrl,
         });
       } catch (error) {
-        console.log("⏳ Backend cold start... retrying signup in 1.5 seconds");
+        console.log("⏳ Backend cold start... retrying in 1.5 seconds...");
         await new Promise(res => setTimeout(res, 1500));
 
         response = await axiosInstance.post("/api/v1/auth/signup", {
@@ -93,6 +93,7 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="height: 15px;"></div>
+
       <div className="flex justify-center items-start w-full min-h-screen px-3 ">
         <div className="bg-white shadow-md rounded-30 p-20 w-full max-w-s sm:max-w-m
                         border border-gray-100
@@ -101,7 +102,7 @@ const SignUp = () => {
           <div className="padding-top: 200px;"></div>
           <div className="height: 20px;"></div>
 
-          <div className="h-10"></div> 
+          <div className="h-10"></div>
           <h3 className="text-sm sm:text-base font-semibold text-[#040c78] text-center mb-3">
             Create Account
           </h3>
@@ -110,6 +111,8 @@ const SignUp = () => {
           </p>
 
           <form onSubmit={handleSignUp} className="flex flex-col gap-2">
+            
+            {/* Profile Image */}
             <div className="flex flex-col items-center mb-1 relative">
               <label
                 htmlFor="profilePic"
@@ -194,6 +197,7 @@ const SignUp = () => {
                 Login
               </Link>
             </p>
+
           </form>
         </div>
       </div>
