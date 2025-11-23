@@ -75,7 +75,7 @@ const SignUp = () => {
     <AuthLayout>
       <div className="height: 15px;"></div>
       <div className="flex justify-center items-start w-full min-h-screen px-3 ">
-        <div className="bg-white shadow-md rounded-30 p-19 w-full max-w-s sm:max-w-m
+        <div className="bg-white shadow-md rounded-30 p-20 w-full max-w-s sm:max-w-m
                         border border-gray-100
                         max-h-[200vh] overflow-y-auto flex flex-col mb">
 
