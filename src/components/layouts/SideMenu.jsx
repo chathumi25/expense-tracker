@@ -100,39 +100,49 @@ const SideMenu = ({ activeMenue }) => {
         <div className="relative inline-block w-20 h-20">
           {tempImage ? (
             <>
-              <img
-                src={tempImage + `?t=${new Date().getTime()}`}
-                alt="Profile"
-                className="profile-image rounded-full w-full h-full object-cover"
-                style={{ width: '80px', height: '80px' }}
-              />
-              <button
-                onClick={handleDeleteImage}
-                title="Delete Photo"
-                className="absolute bottom-0 right-0 z-20 bg-primary text-white p-1 rounded-full hover:bg-red-500 shadow-md transition flex items-center justify-center"
-              >
-                <LuTrash size={13} />
-              </button>
-            </>
-          ) : (
-            <>
-              <CharAvatar
-                fullName={user?.fullName || 'User'}
-                width="w-20"
-                height="h-20"
-                style="text-xl"
-              />
-              <button
-                onClick={triggerUpload}
-                title="Upload Photo"
-                className="absolute bottom-0 right-0 z-20 bg-primary text-white p-1 rounded-full hover:bg-blue-700 shadow-md transition flex items-center justify-center"
-              >
-                {uploading ? (
-                  <span className="animate-pulse text-[10px] px-1">...</span>
-                ) : (
-                  <LuUpload size={13} />
-                )}
-              </button>
+               <div className="relative w-18 h-18 rounded-full overflow-hidden shadow-md flex items-center justify-center">
+        <img
+          src={tempImage + `?t=${new Date().getTime()}`}
+          alt="Profile"
+          className="object-cover w-full h-full"
+        />
+      </div>
+
+      {/* DELETE BUTTON — perfectly aligned */}
+      <button
+        onClick={handleDeleteImage}
+        title="Delete Photo"
+        className="absolute bottom-1 right-[28%] bg-primary text-white p-1 rounded-full 
+                   hover:bg-red-500 shadow-md transition flex items-center justify-center"
+      >
+        <LuTrash size={10} />
+      </button>
+    </>
+  ) : (
+    <>
+      {/* LETTER AVATAR */}
+      <div className="relative w-20 h-20">
+        <CharAvatar
+          fullName={user?.fullName || 'User'}
+          width="w-20"
+          height="h-20"
+          style="text-xl"
+        />
+      </div>
+
+      {/* UPLOAD BUTTON — perfectly aligned */}
+      <button
+        onClick={triggerUpload}
+        title="Upload Photo"
+        className="absolute bottom-1 right-[28%] bg-primary text-white p-1 rounded-full 
+                   hover:bg-blue-700 shadow-md transition flex items-center justify-center"
+      >
+        {uploading ? (
+          <span className="animate-pulse text-[10px] px-1">...</span>
+        ) : (
+          <LuUpload size={10} />
+        )}
+      </button>
             </>
           )}
         </div>
